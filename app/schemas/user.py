@@ -5,6 +5,7 @@ from typing import Optional
 class UserCreate(BaseModel):
   username: str
   email: EmailStr
+  role: Optional[str] = "user"  
   password: str
 
   @field_validator('username', 'email', 'password')
@@ -16,12 +17,14 @@ class UserCreate(BaseModel):
 class UserUpdate(BaseModel):
   username: Optional[str] = None
   email: Optional[EmailStr] = None
+  role: Optional[str] = None
   password: Optional[str] = None
 
 class UserResponse(BaseModel):
   id: int
   username: str
   email: str
+  role: str
   created_at: datetime
   class Config:
     from_attributes = True

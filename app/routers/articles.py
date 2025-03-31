@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from schemas import article
-from utils.utils import get_current_user
-from databases import get_db
+from app.schemas import article
+from app.utils.utils import get_current_user
+from app.databases import get_db
 from typing import List
-from services import articles  # 서비스 레이어 임포트
+from app.services import articles
 
 router = APIRouter(
 	prefix="/api",

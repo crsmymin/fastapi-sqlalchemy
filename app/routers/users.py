@@ -1,10 +1,10 @@
 # app/routers/users.py
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from schemas import user
+from app.schemas import user
 from typing import List
-from databases import get_db
-from services import users  # 서비스 레이어 임포트
+from app.databases import get_db
+from app.services import users  # 서비스 레이어 임포트
 
 router = APIRouter(
   prefix="/api",

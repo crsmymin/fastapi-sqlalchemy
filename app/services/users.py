@@ -1,7 +1,7 @@
 # app/services/user_service.py
 from sqlalchemy.orm import Session
-from models import models
-from utils.utils import hash_password
+from app.models import models
+from app.utils.utils import hash_password
 
 def create_user_service(user_data: dict, db: Session):
   # 중복 사용자 체크

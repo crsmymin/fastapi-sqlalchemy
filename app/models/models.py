@@ -16,8 +16,8 @@ class User(Base):
     username = Column(String(255), unique=True, index=True, nullable=False)
     email = Column(String(255), unique=True, index=True, nullable=False)
     password = Column(String(255), nullable=False)
-    updated_at = Column(DateTime, default=datetime.now(kst))
-    created_at = Column(DateTime, default=datetime.now(kst))
+    created_at = Column(DateTime, default=datetime.now(kst), nullable=False)
+    updated_at = Column(DateTime, default=datetime.now(kst), nullable=True)
 
     articles = relationship("Article", back_populates="user")
 
@@ -26,10 +26,10 @@ class Article(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(255), index=True, nullable=False)
-    description = Column(String(255))
+    description = Column(String(255), nullable=True)
     content = Column(Text, nullable=False)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    updated_at = Column(DateTime, default=datetime.now(kst))
-    created_at = Column(DateTime, default=datetime.now(kst))
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    created_at = Column(DateTime, default=datetime.now(kst), nullable=False)
+    updated_at = Column(DateTime, nullable=True)
 
     user = relationship("User", back_populates="articles")

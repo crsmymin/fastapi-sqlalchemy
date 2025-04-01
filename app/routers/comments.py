@@ -4,7 +4,7 @@ from app.schemas import comment_schema
 from app.services import comment_service
 from app.utils.utils import get_current_user
 from app.databases import get_db
-from typing import List
+from typing import List, Optional
 
 router = APIRouter(
     prefix="/api",
@@ -27,10 +27,10 @@ def read_comment(comment_id: int, db: Session = Depends(get_db)):
     return comment_service.get_comment_service(comment_id, db)
 
 @router.get("/comments/", response_model=List[comment_schema.CommentResponse])
-def read_comments(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    return comment_service.get_comments_service(skip, limit, db)
+def read_comments(skip: int = 0, limit: int = 100, user_id: Optional[int] = None, article_id: Optional[int] = None, db: Session = Depends(get_db)):
+    return comment_service.get_comments_service(skip, limit, user_id, article_id, db)
 
-@router.put("/comments/{comment_id}", response_model=comment_schema.CommentResponse)
+@router.put("/comments/{comment_id}")
 def update_comment(
     comment_id: int,
     comment: comment_schema.CommentUpdate,

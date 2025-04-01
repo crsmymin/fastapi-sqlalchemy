@@ -11,6 +11,7 @@ def create_comment_service(comment_data: dict, db: Session):
     db_article = db.query(models.Article).filter(models.Article.id == comment_data["article_id"]).first()
     if not db_article:
         raise HTTPException(status_code=404, detail="Article not found")
+    
     # 댓글 생성
     db_comment = models.Comment(**comment_data)
     db.add(db_comment)
@@ -24,8 +25,18 @@ def get_comment_service(comment_id: int, db: Session):
         raise HTTPException(status_code=404, detail="Comment not found")
     return db_comment
 
-def get_comments_service(skip: int, limit: int, db: Session):
-    return db.query(models.Comment).offset(skip).limit(limit).all()
+def get_comments_service(skip: int, limit: int, user_id: int, article_id: int, db: Session):
+    if(user_id != None and article_id != None):
+        db_comments = db.query(models.Comment).filter(models.Comment.user_id == user_id, models.Comment.article_id == article_id).offset(skip).limit(limit).all()
+    elif(user_id != None):
+        db_comments = db.query(models.Comment).filter(models.Comment.user_id == user_id).offset(skip).limit(limit).all()
+    elif(article_id != None):
+        db_comments = db.query(models.Comment).filter(models.Comment.article_id == article_id).offset(skip).limit(limit).all()
+    else:
+        db_comments = db.query(models.Comment).offset(skip).limit(limit).all()
+    if not db_comments:
+        raise HTTPException(status_code=404, detail="Comments not found")
+    return db_comments
 
 def update_comment_service(comment_id: int, update_data: dict, db: Session, current_user: dict):
     db_comment = get_comment_service(comment_id, db)

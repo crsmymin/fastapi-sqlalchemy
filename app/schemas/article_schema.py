@@ -1,6 +1,7 @@
 from pydantic import BaseModel, field_validator
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
+from app.schemas.comment_schema import CommentResponse
 
 class ArticleCreate(BaseModel):
   title: str
@@ -32,5 +33,6 @@ class ArticleResponse(BaseModel):
   user_id: int
   created_at: datetime
   updated_at: Optional[datetime] = None
+  comments: List[CommentResponse] = []
   class Config:
     from_attributes = True

@@ -9,6 +9,7 @@ class CommentCreate(BaseModel):
       if v == '':
           raise ValueError('This field cannot be empty')
       return v
+  article_id: int
   
 class CommentUpdate(BaseModel):
   content: Optional[str] = None
@@ -17,6 +18,7 @@ class CommentUpdate(BaseModel):
       if v == '':
           raise ValueError('This field cannot be empty')
       return v
+  article_id: int
   
 class CommentResponse(BaseModel):
   id: int

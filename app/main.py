@@ -1,7 +1,7 @@
 from typing import Union
 
 from fastapi import FastAPI
-from app.routers import articles, users, login
+from app.routers import articles, users, login, comments
 
 app = FastAPI(
   title="fastapi example",
@@ -14,3 +14,4 @@ app = FastAPI(
 app.include_router(articles.router)
 app.include_router(users.router)
 app.include_router(login.router)
+app.include_router(comments.router)

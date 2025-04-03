@@ -55,11 +55,11 @@ def get_articles_by_category_service(category_id: int, skip: int, limit: int, db
     # 다대다 관계이므로 Article과 Category를 join하여 조회
     db_articles = (
         db.query(models.Article)
-          .join(models.Article.categories)
-          .filter(models.Category.id == category_id)
-          .offset(skip)
-          .limit(limit)
-          .all()
+        .join(models.Article.categories)
+        .filter(models.Category.id == category_id)
+        .offset(skip)
+        .limit(limit)
+        .all()
     )
     if not db_articles:
         raise HTTPException(status_code=404, detail="Articles not found")

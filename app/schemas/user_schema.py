@@ -8,17 +8,20 @@ class UserCreate(BaseModel):
     role: Optional[str] = "user"  
     password: str
     
-@field_validator('username', 'email', 'password')
-def check_empty(cls, v):
-    if v == '':
-        raise ValueError('This field cannot be empty')
-    return v
-
+    @field_validator('username', 'email', 'password')
+    def check_empty(cls, v):
+        if v == '':
+            raise ValueError('This field cannot be empty')
+        return v
+    class Config:
+        extra = 'forbid'
 class UserUpdate(BaseModel):
     username: Optional[str] = None
     email: Optional[EmailStr] = None
     role: Optional[str] = None
     password: Optional[str] = None
+    class Config:
+        extra = 'forbid'
 
 class UserResponse(BaseModel):
     id: int
@@ -26,6 +29,12 @@ class UserResponse(BaseModel):
     email: str
     role: str
     created_at: datetime
+    updated_at: datetime
+class Config:
+    from_attributes = True
+class UsersResponse(BaseModel):
+    id: int
+    username: str
 class Config:
     from_attributes = True
 

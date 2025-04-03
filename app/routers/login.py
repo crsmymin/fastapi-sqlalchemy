@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Request, Response
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.schemas import user_schema
 from app.models import models
@@ -20,5 +20,12 @@ def login(request: user_schema.LoginRequest, db: Session = Depends(get_db)):
             detail="Incorrect email or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token = create_access_token(data={"sub": str(user.id), "email": user.email})
+    access_token = create_access_token(
+        data={
+            "sub": str(user.id), 
+            "name": user.username, 
+            "email": user.email, 
+            "role": user.role
+        }
+    )
     return {"access_token": access_token, "token_type": "bearer"}

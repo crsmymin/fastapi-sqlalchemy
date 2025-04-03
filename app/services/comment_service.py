@@ -43,6 +43,9 @@ def update_comment_service(comment_id: int, update_data: dict, db: Session, curr
     # 사용자 권한 검증: 현재 로그인한 사용자와 댓글 작성자가 동일한지 확인
     if str(current_user["sub"]) != str(db_comment.user_id):
         raise HTTPException(status_code=403, detail="You do not have permission to update this comment")
+    # article_id는 댓글 작성시 입력받은 article_id와 동일해야 함
+    if db_comment.article_id != update_data["article_id"]:
+        raise HTTPException(status_code=403, detail="You cannot change the article_id of this comment")
     for key, value in update_data.items():
         setattr(db_comment, key, value)
     db_comment.updated_at = datetime.now(kst)
